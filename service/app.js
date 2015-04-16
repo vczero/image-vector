@@ -14,9 +14,11 @@ var routes = require('./routes/index');
 var post = require('./routes/post');
 var get = require('./routes/get');
 var compile = require('./routes/compile');
-var dist = require('./routes/dist');
+var compile_get = require('./routes/compile_get');
+var dist_get = require('./routes/dist_get');
 var dir = require('./routes/dir');
 var contact = require('./routes/contact');
+
 
 
 app.set('views', path.join(__dirname, 'views'));
@@ -49,7 +51,10 @@ app.use('/', routes);
 app.get('/post', post);
 app.get('/get', get);
 app.get('/compile', compile);
-app.get('/dist', dist);
+app.get('/compile_get', compile_get);
+
+//app.get('/dist', dist);
+app.get('/dist/get', dist_get);
 app.get('/dir', dir);
 app.get('/contact', contact);
 

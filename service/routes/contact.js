@@ -20,15 +20,22 @@ module.exports = function(req, res){
 			var name = names[i].split('_')[0];
 			var obj = {};
 			obj[name] = JSON.parse(data.toString());
-			content.push(JSON.stringify(obj));
+			content.push(obj);
 			
 		}
-		
 		var files = fs.readdirSync(pathContact);
-		var newName = 'conatct_' + (parseInt(files.length) + 1) + '.json';
-		fs.appendFileSync(pathContact + newName, content);
-		
-		res.json({status: 1});
+		var newName = 'contact_';
+		if(files.length){
+			var n = files.length;
+			newName += (parseInt(n) + 1) + '.json';
+		}else{
+			newName += '1.json'; 
+		}
+		var str = JSON.stringify(content);
+		fs.writeFile(pathContact + newName, str, function(err){
+			if(!err)
+				res.json({status: 1});	
+		});
 	}catch(e){
 		res.json({status: 0});	
 	}
