@@ -1,8 +1,6 @@
 
 /*
  * 描述：提供基本的AJAX、JSON、事件绑定
- * 作者：王利华 
- * 邮箱：lh_wang@ctrip.com
  * 时间：2015-04-14
  * */
 ;(function(exports){
