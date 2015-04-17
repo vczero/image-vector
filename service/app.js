@@ -8,16 +8,7 @@ var bodyParser = require('body-parser');
 var app = express();
 var port = parseInt(process.env.PORT || 3000, 10);
 var server = http.createServer(app);
-
-
-var routes = require('./routes/index');
-var post = require('./routes/post');
-var get = require('./routes/get');
-var compile = require('./routes/compile');
-var compile_get = require('./routes/compile_get');
-var dist_get = require('./routes/dist_get');
-var dir = require('./routes/dir');
-var contact = require('./routes/contact');
+var routes = require('./routes/routes');
 
 
 
@@ -45,19 +36,7 @@ app.all("*", function(req, res, next) {
     }
 });
 
-
-//路由
-app.use('/', routes);
-app.get('/post', post);
-app.get('/get', get);
-app.get('/compile', compile);
-app.get('/compile_get', compile_get);
-
-//app.get('/dist', dist);
-app.get('/dist/get', dist_get);
-app.get('/dir', dir);
-app.get('/contact', contact);
-
+routes(app);
 
 //启动服务器
 server.listen(port);

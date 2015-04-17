@@ -1,8 +1,6 @@
 
 /*
  * 描述：将数据转化为可用的json
- * 作者：王利华 
- * 邮箱：lh_wang@ctrip.com
  * 时间：2015-04-14
  * */
 
@@ -19,10 +17,7 @@ var parseData = function(data){
 		if((i + 1) !== strs.length)
 			data.push(xy);
 	}
-	var obj = {
-		status: 1,
-		data: data
-	};
+	var obj = data;
 	return obj;
 };
 

@@ -1,8 +1,6 @@
 
 /*
  * 描述：数据合并
- * 作者：王利华 
- * 邮箱：lh_wang@ctrip.com
  * 时间：2015-04-14
  * */
 
@@ -17,7 +15,7 @@ module.exports = function(req, res){
 		for(var i in names){
 			var pathData = './json/' + names[i];
 			var data = fs.readFileSync(pathData);
-			var name = names[i].split('_')[0];
+			var name = names[i].split('.')[0];
 			var obj = {};
 			obj[name] = JSON.parse(data.toString());
 			content.push(obj);

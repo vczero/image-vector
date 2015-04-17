@@ -1,8 +1,6 @@
 
 /*
  * 描述：向文件中追加坐标
- * 作者：王利华 
- * 邮箱：lh_wang@ctrip.com
  * 时间：2015-04-14
  * */
 var fs = require('fs');
@@ -12,7 +10,6 @@ module.exports = function(req, res){
 	var y = req.param('y');
 	var fileName = req.param('fileName');
 	var str = x + '\t' + y + '\r\n';
-	
 	
 	fs.appendFile('./data/' + fileName, str, function(err){
 		var obj = {

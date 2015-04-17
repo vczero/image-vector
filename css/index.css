@@ -1,0 +1,166 @@
+body{
+	font-size:12px;
+	font-family:"courier new", "微软雅黑";
+	margin:0;
+	background-color:#272922;
+	color:#fff;
+	height:100%;
+	width:100%;
+}
+
+.header{
+	height:40px;
+	line-height:40px;
+	color:#fff;
+	font-size:17px;
+	padding-left:50px;
+}
+
+.fl{
+	float:left;
+}
+
+.fr{
+	float:right;
+}
+
+.frame{
+	width:960px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:30px;
+}
+
+.img_div{
+	border:2px solid #00B7FF;
+	width:438px;
+	cursor: crosshair;
+}
+.img{
+	border:1px solid #00B7FF;
+	margin:2px;
+}
+
+.data_list{
+	float:right;
+	width:460px;
+}
+
+
+.data_list_title{
+	color:#00B7FF;
+}
+
+.data_list_title span{
+	font-size:15px;
+}
+
+table{
+	border:1px solid #ccc;
+	border-radius:3px;
+	width:450px;
+	max-height:530px;
+	outline: none;
+	margin-top:5px;
+	border-collapse: collapse;
+	color:yellow;
+}
+
+tr{
+	height:16px;
+}
+
+tr:hover{
+	background-color:#00B7FF;
+	color:#fff;
+}
+
+.select_zoom{
+	margin-top:30px;
+	overflow: auto;
+	border:1px solid #ccc;
+	border-left:4px solid #00B7FF;
+	padding-top: 20px;
+	padding-bottom:20px;
+	padding-left:20px;
+}
+
+.select_zoom>div:nth-child(1){
+	margin-bottom:10px;
+}
+
+.select_zoom>div:nth-child(1)>span{
+	display:inline-block;
+	width:60px;
+}
+
+.select_zoom>div:nth-child(2) input{
+	outline:none;
+	height:28px;
+	line-height:28px;
+	width:300px;
+	border:1px solid #CCCCCC;
+	padding-left:4px;
+	margin-left:5px;
+}
+
+
+.data_trans{
+	height:140px;
+	margin-top:30px;
+	border:1px solid #ccc;
+	border-left:4px solid #00B7FF;
+	padding-top: 10px;
+	padding-bottom:10px;
+	padding-left:10px;
+}
+
+.data_trans>div:nth-child(1){
+	border:1px dashed #CCCCCC;
+	padding:7px;
+	font-size:14px;
+	height:120px;
+	width:120px;
+	overflow: scroll;
+}
+
+.data_trans>div:nth-child(1)>div:hover{
+	color:#FFF;
+	background-color:#00B7FF;
+	cursor:default;
+}
+
+.data_trans>div:nth-child(2){
+	height:120px;
+	line-height:120px;
+	margin-left: 10px;
+	font-size:20px;
+	color:#00B7FF;
+}
+
+.data_trans>div:nth-child(3){
+	margin-left: 20px;
+	border:1px dashed #CCCCCC;
+	padding:7px;
+	font-size:14px;
+	height:120px;
+	width:100px;
+	overflow: scroll;
+	color:#00B7FF;
+}
+
+.data_trans>div:nth-child(3):hover{
+	cursor:default;
+}
+
+.data_trans>div:nth-child(4){
+	height:32px;
+	width:75px;
+	margin-top:44px;
+	margin-left:20px;
+	background-color:#00B7FF;
+	color:#FFFFFF;
+	text-align:center;
+	line-height:32px;
+	cursor:pointer;
+}

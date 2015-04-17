@@ -1,8 +1,6 @@
 
 /*
- * 描述：游游基本数据处理模块
- * 作者：王利华 
- * 邮箱：lh_wang@ctrip.com
+ * 描述：工具模块
  * 时间：2015-04-14
  * */
 ;(function(exports, require){
@@ -15,6 +13,7 @@
 	var data = [];
 	var tpl = '<tr><td>序号</td><td>x坐标</td><td>y坐标</td></tr>';
 	var count = 0;
+	var DOMAIN_URL = 'http://127.0.0.1:3000/';
 
 	table.innerHTML = tpl;
 	
@@ -78,7 +77,7 @@
 		
 		
 		table.appendChild(addTpl(xy));
-		var url = 'http://127.0.0.1:3000/post';
+		var url = DOMAIN_URL + 'post';
 		url += '?x=' + x;
 		url += '&y=' + y;
 		if(radioCheck() && fileName){
@@ -93,7 +92,7 @@
 	//读取服务文档列表
 	function addList(id, dir){
 		var el = document.getElementById(id);
-		var url = 'http://127.0.0.1:3000/dir?dirname=' + dir;
+		var url = DOMAIN_URL + 'dir?dirName=' + dir;
 		ajax({method: 'GET', url: url}, function(data){
 			if(data.status){
 				var frag = document.createDocumentFragment();
@@ -140,7 +139,7 @@
 			alert('请从右边选择文件名称。');
 			return;
 		}
-		var url = 'http://127.0.0.1:3000/compile';
+		var url = DOMAIN_URL + 'compile';
 		url += '?fileNames=' + names.join('@');
 		url +="&isMany=1";
 		ajax({method: 'GET', url: url}, function(data){
@@ -155,13 +154,14 @@
 		});
 	}
 	
+	//数据合并
 	function dataContact(){
 		var names = getNames('data_contact__right');
 		if(!names.length){
 			alert('请从右边选择文件名称。');
 			return;
 		}
-		var url = 'http://127.0.0.1:3000/contact';
+		var url = DOMAIN_URL + 'contact';
 		url += '?fileNames=' + names.join('@');
 		ajax({method: 'GET', url: url}, function(data){
 			require.tipShow();
@@ -175,6 +175,39 @@
 		});
 	}
 	
+	//数据压缩
+	function dataDist(){
+		var names = getNames('data_compare__right');
+		if(!names.length){
+			alert('请从右边选择文件名称, 默认为最后选择的文件');
+			return;
+		}
+		var url = DOMAIN_URL + 'dist?fileName=';
+		url += names[names.length - 1].split('.')[0];
+		console.log(url);
+		ajax({method: 'GET', url: url}, function(data){
+			require.tipShow();
+			if(data.status){
+				require.tipHide();
+				alert('压缩完成，压缩率为：'+ (data.rate * 100) + ' %');
+				showRate(data);
+			}else{
+				require.tipHide();
+				alert('数据压缩失败!');
+			}
+		});
+	}
+	
+	function showRate(data){
+		var el = document.getElementById('data_dist_files');
+		el.innerHTML = '';
+		var str = '<span>压缩结果如下:</span><br />';
+		str += '<span>压缩完成的文件名是' + data.filename + '</span><br/>';
+		str += '<span>压缩率为：<span style="font-size:22px;color:#E9FA01;">' + data.rate + '</span></span><br/>';
+		str += '<span>可以通过访问<a href="' + DOMAIN_URL + 'get?dirName=dist&fileName='
+		str += data.filename.split('.')[0] + '">' + '该地址' + '</a>获取数据结果</span><br/>';
+		el.innerHTML = str;
+	}
 	
 	
 	//事件
@@ -184,12 +217,10 @@
 	addItem('data_trans__left');
 	addItem('data_contact__left');
 	addItem('data_compare__left');
-	
-	
+	addEvent(draw, 'mousedown', mouseDown);
 	addEvent(document.getElementById('data_trans_btn'), 'click', dataTrans);
 	addEvent(document.getElementById('data_contact_btn'), 'click', dataContact);
-	addEvent(draw, 'mousedown', mouseDown);
-	
+	addEvent(document.getElementById('data_compare_btn'), 'click', dataDist);
 	
 	
 })(window, window);
