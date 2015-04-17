@@ -66,7 +66,7 @@
 		data.push(xy);
 		//打点标记,标记已经打过的点
 		var div = document.createElement('div');
-		div.innerHTML = '*';
+		div.innerHTML = '+';
 		div.style.fontSize = '15px';
 		div.style.color = 'red';
 		div.style.position = 'absolute';
@@ -77,7 +77,7 @@
 		
 		
 		table.appendChild(addTpl(xy));
-		var url = DOMAIN_URL + 'post';
+		var url = DOMAIN_URL + 'create';
 		url += '?x=' + x;
 		url += '&y=' + y;
 		if(radioCheck() && fileName){

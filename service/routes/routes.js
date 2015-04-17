@@ -2,7 +2,6 @@
 /*
  * 路由服务列表模块 
  * 
- * 
  * */
 var routes = require('./index');
 var create = require('./create');
@@ -39,15 +38,16 @@ module.exports = function(app){
 	
 	//des:列出目录下面的文件
 	//@dirName:目录名称
-	//@url:domain/dir?dirName=xxx
+	//url:domain/dir?dirName=xxx
 	app.get('/dir', dir);
 	
 	//des:数据合并
 	//@fileNames:多文件，以@分割，例如fileNames＝file1@file2@file2
 	app.get('/contact', contact);
 	
-	
-	
+	//des:数据压缩
+	//@fileName需要压缩的文件名
+	//url:domain/dist?fileName=xxx
 	app.get('/dist', dist);
 	
 };

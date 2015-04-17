@@ -19,13 +19,18 @@ module.exports = function(req, res){
  	
 	fs.readFile(path, function(err, data){
 		try{
+			var reObj = null;
 			var obj = JSON.parse(data.toString());
+			reObj = {
+				status: 1,
+				data: obj
+			}
 		}catch(e){
-			obj = null;
+			reObj = null;
 		}
 	
 		if(!err && obj){
-			return res.json(obj);
+			return res.json(reObj);
 		}else{
 			return res.json(errStatus);
 		}
