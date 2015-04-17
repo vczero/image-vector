@@ -125,7 +125,6 @@
 			drawCircle(data, 'circle_qipao5', COLOR_LIST.QIPAO, 15);
 			drawCircle(data, 'circle_qipao6', COLOR_LIST.QIPAO, 10);
 			drawCircle(data, 'circle_qipao7', COLOR_LIST.QIPAO, 16);
-			
 		
 			drawText(320, 69);
 		});
