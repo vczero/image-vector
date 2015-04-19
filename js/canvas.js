@@ -28,6 +28,8 @@
 		return;
 	}
 	
+	context.scale(SCALE_SML, SCALE_SML);
+	
 	//simple package design pattern
 	function addDrawFunc(data, part, color, fun){
 		var xys = data[part];
@@ -131,7 +133,6 @@
 	}
 	
 	draw('dist_3');
-	context.scale(SCALE_SML, SCALE_SML);
 	
 	
 })(window, window);
