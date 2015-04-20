@@ -10,20 +10,6 @@
 	var SCALE_BIG = 1;
 	var SCALE_SML = 0.25;
 	
-	//颜色对应表
-	var COLOR_LIST = {
-		BODY: '#63CEF6',
-		DUPI: '#FFF',
-		EYE: '#034E68',
-		ZUIBA: '#0089B5',
-		TOUQUAN: '#BDF9FB',
-		JIUWO: '#FFBFE3',
-		QIPAO: '#C9E8FB',
-		BISHANG: '#46BEEF',
-		BIXIA: '#54C5F2',
-		GO: '#B1DBF2'
-	};
-	
 	if(!context){
 		return;
 	}
@@ -41,13 +27,29 @@
 	}
    	
 	
-	context.scale(SCALE_SML, SCALE_SML);
-	//draw polygon
-	function drawPolygon(data, part, color){	
-		var xys = data[part];
+	var Vector = function(data){
+		this.data = data;
+		Vector._context.scale(SCALE_SML, SCALE_SML);
+	};
+	
+	Vector._context = canvas.getContext('2d');
+	//颜色对应表
+	Vector._COLOR_LIST = {
+		BODY: '#63CEF6',
+		DUPI: '#FFF',
+		EYE: '#034E68',
+		ZUIBA: '#0089B5',
+		TOUQUAN: '#BDF9FB',
+		JIUWO: '#FFBFE3',
+		QIPAO: '#C9E8FB',
+		BISHANG: '#46BEEF',
+		BIXIA: '#54C5F2',
+		GO: '#B1DBF2'
+	};
+	
+	Vector._drawPolygon = function(xys, color){
 		context.beginPath();
 		context.fillStyle = color;
-		
 		context.moveTo(xys[0], xys[1]);
 		for(var i = 2; i < xys.length; i++){
 			if(i % 2 !== 0){
@@ -57,42 +59,28 @@
 		
 		context.fill();
 		context.closePath();
-	}
+	};
 	
-	//draw eye
-	function drawEye(data, part, color){
-		var xys = data[part];
+	Vector._drawCircle = function(xys, color, radius){
 		context.beginPath();
 		context.fillStyle = color;
-		
-		//变形
-	 	context.save();
-		context.scale(1.5, 2);
-		context.arc(xys[0]/1.5, xys[1]/2, 6, 0, Math.PI * 2, false);
-		context.restore();
-		
-		context.fill();
-		context.closePath(); 
-		
-	}
-	
-	//drawCircle
-	function drawCircle(data, part, color, radius){
-		var xys = data[part];
-		context.beginPath();
-		context.fillStyle = color;
-		
 		context.arc(xys[0], xys[1], radius, 0, Math.PI * 2, false);
-		
 		context.fill();
 		context.closePath();
-	}
+	};
 	
+	Vector._drawEye = function(xys, color, radius){
+		context.beginPath();
+		context.fillStyle = color;
+	 	context.save();
+		context.scale(1.5, 2);
+		context.arc(xys[0]/1.5, xys[1]/2, radius, 0, Math.PI * 2, false);
+		context.restore();
+		context.fill();
+		context.closePath(); 
+	};
 	
-	
-	//draw line
-	function drawLine(data, part, color, width){
-		var xys = data[part];
+	Vector._drawLine = function(xys, color, width){
 		context.beginPath();
 		context.strokeStyle = color; 
 		context.lineWidth = width;
@@ -104,53 +92,92 @@
 		}
 		context.stroke();
 		context.closePath();
-	}
+	};
 	
-	//draw text
-	function drawText(x, y){
+	Vector._drawText = function(text, x, y, color){
 		context.beginPath();
-		context.fillStyle = '#FFFFFF';
+		context.fillStyle = color;
 		context.font = '40px arial,sans-serif';
-		context.fillText('go...', x, y)
+		context.fillText(text, x, y)
 		context.fill();
 		context.closePath();
-	}
+	};
 	
+	Vector.prototype = {
+		draw: function(){
+			var data = this.data;
+			var qipaoPos = 0;
+			var handle = setInterval(function(){
+				context.clearRect(0, 0, canvas.width, canvas.height);
+				console.log(qipaoPos);
+				Vector._drawPolygon(data['polygon_body'], Vector._COLOR_LIST.BODY);
+				Vector._drawPolygon(data['polygon_dupi'], Vector._COLOR_LIST.DUPI);
+				Vector._drawPolygon(data['polygon_touquan'], Vector._COLOR_LIST.TOUQUAN);
+				Vector._drawPolygon(data['polygon_jiuwo1'], Vector._COLOR_LIST.JIUWO);
+				Vector._drawPolygon(data['polygon_jiuwo2'], Vector._COLOR_LIST.JIUWO);
+				Vector._drawPolygon(data['polygon_go'], Vector._COLOR_LIST.GO);
+				
+				var eye_1 = [
+						parseInt(data['circle_eye1'][0]),
+						parseInt(data['circle_eye1'][1])
+					];
+					
+					var eye_2 = [
+						parseInt(data['circle_eye2'][0]),
+						parseInt(data['circle_eye2'][1])
+					];
+				if(qipaoPos % 2 === 0){
+					Vector._drawEye(eye_1, Vector._COLOR_LIST.EYE, 6);
+					Vector._drawEye(eye_2, Vector._COLOR_LIST.EYE, 6);	
+					
+					eye_1[0] += 3;
+					eye_1[1] -= 5;
+					
+					eye_2[0] += 3;
+					eye_2[1] -= 5;
+					
+					Vector._drawEye(eye_1, '#EFEFEF', 3);
+					Vector._drawEye(eye_2, '#EFEFEF', 3);	
+				}else{
+					//‿
+					Vector._drawText('‿', eye_1[0] + 26 , eye_1[1] - 42, '#099FDE');
+					Vector._drawText('‿', eye_2[0] - 36 , eye_2[1] - 25, '#099FDE');
+					//><
+					Vector._drawText('>', eye_1[0] - 16 , eye_1[1] + 16, '#099FDE');
+					Vector._drawText('<', eye_2[0] - 16 , eye_2[1] + 16, '#099FDE');
+				}
 	
-	//绘制
-	function draw(fileName){
-		var url = 'http://127.0.0.1:3000/get?dirName=dist&fileName=' + fileName;
-		ajax({method: 'GET', url: url}, function(data){
-			data = data.data;
-			drawPolygon(data, 'polygon_body', COLOR_LIST.BODY);
-			drawPolygon(data, 'polygon_dupi', COLOR_LIST.DUPI);
-			drawPolygon(data, 'polygon_touquan', COLOR_LIST.TOUQUAN);
-			drawPolygon(data, 'polygon_jiuwo1', COLOR_LIST.JIUWO);
-			drawPolygon(data, 'polygon_jiuwo2', COLOR_LIST.JIUWO);
-			drawPolygon(data, 'polygon_go', COLOR_LIST.GO);
+				Vector._drawLine(data['line_zui'], Vector._COLOR_LIST.ZUIBA, 4);
+				Vector._drawLine(data['line_bishang'], Vector._COLOR_LIST.BISHANG, 8);
+				Vector._drawLine(data['line_bixia'], Vector._COLOR_LIST.BIXIA, 5);
+				
+				data['circle_qipao1'][1] -= qipaoPos;
+				data['circle_qipao2'][1] -= qipaoPos;
+				data['circle_qipao3'][1] -= qipaoPos;
+				data['circle_qipao4'][1] -= qipaoPos;
+				data['circle_qipao5'][1] -= qipaoPos;
+				data['circle_qipao6'][1] -= qipaoPos;
+				data['circle_qipao7'][1] -= qipaoPos;
+				
+				Vector._drawCircle(data['circle_qipao1'], Vector._COLOR_LIST.QIPAO, 30);
+				Vector._drawCircle(data['circle_qipao2'], Vector._COLOR_LIST.QIPAO, 25);
+				Vector._drawCircle(data['circle_qipao3'], Vector._COLOR_LIST.QIPAO, 15);
+				Vector._drawCircle(data['circle_qipao4'], Vector._COLOR_LIST.QIPAO, 20);
+				Vector._drawCircle(data['circle_qipao5'], Vector._COLOR_LIST.QIPAO, 15);
+				Vector._drawCircle(data['circle_qipao6'], Vector._COLOR_LIST.QIPAO, 10);
+				Vector._drawCircle(data['circle_qipao7'], Vector._COLOR_LIST.QIPAO, 16);
 			
-			drawEye(data, 'circle_eye1', COLOR_LIST.EYE);
-			drawEye(data, 'circle_eye2', COLOR_LIST.EYE);
-
-			drawLine(data, 'line_zui', COLOR_LIST.ZUIBA, 4);
-			drawLine(data, 'line_bishang', COLOR_LIST.BISHANG, 8);
-			drawLine(data, 'line_bixia', COLOR_LIST.BIXIA, 5);
-			
-			drawCircle(data, 'circle_qipao1', COLOR_LIST.QIPAO, 30);
-			drawCircle(data, 'circle_qipao2', COLOR_LIST.QIPAO, 25);
-			drawCircle(data, 'circle_qipao3', COLOR_LIST.QIPAO, 15);
-			drawCircle(data, 'circle_qipao4', COLOR_LIST.QIPAO, 20);
-			drawCircle(data, 'circle_qipao5', COLOR_LIST.QIPAO, 15);
-			drawCircle(data, 'circle_qipao6', COLOR_LIST.QIPAO, 10);
-			drawCircle(data, 'circle_qipao7', COLOR_LIST.QIPAO, 16);
-		
-			drawText(320, 69);
-		});
-	}
+				Vector._drawText('go...', 320, 69, '#fff');
+				qipaoPos += 3;
+			}, 130);
+		}
+	};
 	
-	//执行流程
-	draw('dist_3');
-
 	
+	var url = 'http://127.0.0.1:3000/get?dirName=dist&fileName=' + 'dist_3';
+	ajax({method: 'GET', url: url}, function(data){
+		data = data.data;
+		new Vector(data).draw();
+	});
 	
 })(window, window);
