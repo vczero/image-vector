@@ -9,6 +9,7 @@
 	//缩放比例
 	var SCALE_BIG = 1;
 	var SCALE_SML = 0.25;
+	var QIPAO_COUNT = 7;
 	
 	if(!context){
 		return;
@@ -41,7 +42,7 @@
 		ZUIBA: '#0089B5',
 		TOUQUAN: '#BDF9FB',
 		JIUWO: '#FFBFE3',
-		QIPAO: '#C9E8FB',
+		QIPAO: '#B3D2E5',
 		BISHANG: '#46BEEF',
 		BIXIA: '#54C5F2',
 		GO: '#B1DBF2'
@@ -109,7 +110,31 @@
 			var qipaoPos = 0;
 			var handle = setInterval(function(){
 				context.clearRect(0, 0, canvas.width, canvas.height);
-				console.log(qipaoPos);
+				if(qipaoPos === 0){
+					// nothing to do
+				}else if(qipaoPos % 2 === 0){
+					for(var i in data){
+						for(var j in data[i]){
+							if(j % 2 !== 0 && (i.indexOf('circle_qipao') > -1)){
+								data[i][j] = parseInt(data[i][j]) - 15;
+							}else{
+								data[i][j] = parseInt(data[i][j]) + 15;
+							}
+						}
+					}
+				}else{
+					for(var i in data){
+						for(var j in data[i]){
+							if(j % 2 !== 0 && (i.indexOf('circle_qipao') > -1)){
+								data[i][j] = parseInt(data[i][j]) + 15;
+							}else{
+								data[i][j] = parseInt(data[i][j]) - 15;
+							}
+						}
+					}
+				}
+				
+				//第一层
 				Vector._drawPolygon(data['polygon_body'], Vector._COLOR_LIST.BODY);
 				Vector._drawPolygon(data['polygon_dupi'], Vector._COLOR_LIST.DUPI);
 				Vector._drawPolygon(data['polygon_touquan'], Vector._COLOR_LIST.TOUQUAN);
@@ -117,47 +142,9 @@
 				Vector._drawPolygon(data['polygon_jiuwo2'], Vector._COLOR_LIST.JIUWO);
 				Vector._drawPolygon(data['polygon_go'], Vector._COLOR_LIST.GO);
 				
-				var eye_1 = [
-						parseInt(data['circle_eye1'][0]),
-						parseInt(data['circle_eye1'][1])
-					];
-					
-					var eye_2 = [
-						parseInt(data['circle_eye2'][0]),
-						parseInt(data['circle_eye2'][1])
-					];
-				if(qipaoPos % 2 === 0){
-					Vector._drawEye(eye_1, Vector._COLOR_LIST.EYE, 6);
-					Vector._drawEye(eye_2, Vector._COLOR_LIST.EYE, 6);	
-					
-					eye_1[0] += 3;
-					eye_1[1] -= 5;
-					
-					eye_2[0] += 3;
-					eye_2[1] -= 5;
-					
-					Vector._drawEye(eye_1, '#EFEFEF', 3);
-					Vector._drawEye(eye_2, '#EFEFEF', 3);	
-				}else{
-					//‿
-					Vector._drawText('‿', eye_1[0] + 26 , eye_1[1] - 42, '#099FDE');
-					Vector._drawText('‿', eye_2[0] - 36 , eye_2[1] - 25, '#099FDE');
-					//><
-					Vector._drawText('>', eye_1[0] - 16 , eye_1[1] + 16, '#099FDE');
-					Vector._drawText('<', eye_2[0] - 16 , eye_2[1] + 16, '#099FDE');
-				}
-	
 				Vector._drawLine(data['line_zui'], Vector._COLOR_LIST.ZUIBA, 4);
 				Vector._drawLine(data['line_bishang'], Vector._COLOR_LIST.BISHANG, 8);
 				Vector._drawLine(data['line_bixia'], Vector._COLOR_LIST.BIXIA, 5);
-				
-				data['circle_qipao1'][1] -= qipaoPos;
-				data['circle_qipao2'][1] -= qipaoPos;
-				data['circle_qipao3'][1] -= qipaoPos;
-				data['circle_qipao4'][1] -= qipaoPos;
-				data['circle_qipao5'][1] -= qipaoPos;
-				data['circle_qipao6'][1] -= qipaoPos;
-				data['circle_qipao7'][1] -= qipaoPos;
 				
 				Vector._drawCircle(data['circle_qipao1'], Vector._COLOR_LIST.QIPAO, 30);
 				Vector._drawCircle(data['circle_qipao2'], Vector._COLOR_LIST.QIPAO, 25);
@@ -166,10 +153,39 @@
 				Vector._drawCircle(data['circle_qipao5'], Vector._COLOR_LIST.QIPAO, 15);
 				Vector._drawCircle(data['circle_qipao6'], Vector._COLOR_LIST.QIPAO, 10);
 				Vector._drawCircle(data['circle_qipao7'], Vector._COLOR_LIST.QIPAO, 16);
-			
+
 				Vector._drawText('go...', 320, 69, '#fff');
-				qipaoPos += 3;
-			}, 130);
+				
+				//眼睛动画
+				var eye_1 = [
+						parseInt(data['circle_eye1'][0]),
+						parseInt(data['circle_eye1'][1])
+					];
+					
+				var eye_2 = [
+					parseInt(data['circle_eye2'][0]),
+					parseInt(data['circle_eye2'][1])
+				];
+				if(qipaoPos % 2 === 0){
+					//眼睛
+					Vector._drawEye(eye_1, Vector._COLOR_LIST.EYE, 6);
+					Vector._drawEye(eye_2, Vector._COLOR_LIST.EYE, 6);	
+					eye_1[0] += 3;
+					eye_1[1] -= 5;
+					eye_2[0] += 3;
+					eye_2[1] -= 5;
+					Vector._drawEye(eye_1, '#EFEFEF', 2);
+					Vector._drawEye(eye_2, '#EFEFEF', 2);
+				}else{
+					//闭眼
+					Vector._drawText('‿', eye_1[0] + 26 , eye_1[1] - 42, '#099FDE');
+					Vector._drawText('‿', eye_2[0] - 36 , eye_2[1] - 25, '#099FDE');
+					Vector._drawText('>', eye_1[0] - 16 , eye_1[1] + 16, '#099FDE');
+					Vector._drawText('<', eye_2[0] - 16 , eye_2[1] + 16, '#099FDE');
+				}
+				
+				qipaoPos += 1;
+			}, 230);
 		}
 	};
 	
