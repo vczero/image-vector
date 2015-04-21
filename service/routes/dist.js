@@ -26,8 +26,8 @@ module.exports = function(req, res){
 					//第三层
 					for(var k in dataXYs){
 						//这里除以2，压缩百位数到十位数
-						result[n].push(dataXYs[k].x / 2);
-						result[n].push(dataXYs[k].y / 2);
+						result[n].push(parseInt(dataXYs[k].x));
+						result[n].push(parseInt(dataXYs[k].y));
 					}
 				}
 			}

@@ -106,94 +106,23 @@
 	
 	Vector.prototype = {
 		draw: function(){
-			var data = this.data;
-			var qipaoPos = 0;
-			var handle = setInterval(function(){
-				context.clearRect(0, 0, canvas.width, canvas.height);
-				if(qipaoPos === 0){
-					// nothing to do
-				}else if(qipaoPos % 2 === 0){
-					for(var i in data){
-						for(var j in data[i]){
-							if(j % 2 !== 0 && (i.indexOf('circle_qipao') > -1)){
-								data[i][j] = parseInt(data[i][j]) - 15;
-							}else{
-								data[i][j] = parseInt(data[i][j]) + 15;
-							}
-						}
-					}
-				}else{
-					for(var i in data){
-						for(var j in data[i]){
-							if(j % 2 !== 0 && (i.indexOf('circle_qipao') > -1)){
-								data[i][j] = parseInt(data[i][j]) + 15;
-							}else{
-								data[i][j] = parseInt(data[i][j]) - 15;
-							}
-						}
-					}
-				}
-				
-				//第一层
-				Vector._drawPolygon(data['polygon_body'], Vector._COLOR_LIST.BODY);
-				Vector._drawPolygon(data['polygon_dupi'], Vector._COLOR_LIST.DUPI);
-				Vector._drawPolygon(data['polygon_touquan'], Vector._COLOR_LIST.TOUQUAN);
-				Vector._drawPolygon(data['polygon_jiuwo1'], Vector._COLOR_LIST.JIUWO);
-				Vector._drawPolygon(data['polygon_jiuwo2'], Vector._COLOR_LIST.JIUWO);
-				Vector._drawPolygon(data['polygon_go'], Vector._COLOR_LIST.GO);
-				
-				Vector._drawLine(data['line_zui'], Vector._COLOR_LIST.ZUIBA, 2);
-				Vector._drawLine(data['line_bishang'], Vector._COLOR_LIST.BISHANG, 4);
-				Vector._drawLine(data['line_bixia'], Vector._COLOR_LIST.BIXIA, 2.5);
-				
-				Vector._drawCircle(data['circle_qipao1'], Vector._COLOR_LIST.QIPAO, 15);
-				Vector._drawCircle(data['circle_qipao2'], Vector._COLOR_LIST.QIPAO, 12.5);
-				Vector._drawCircle(data['circle_qipao3'], Vector._COLOR_LIST.QIPAO, 7.5);
-				Vector._drawCircle(data['circle_qipao4'], Vector._COLOR_LIST.QIPAO, 10);
-				Vector._drawCircle(data['circle_qipao5'], Vector._COLOR_LIST.QIPAO, 7.5);
-				Vector._drawCircle(data['circle_qipao6'], Vector._COLOR_LIST.QIPAO, 5);
-				Vector._drawCircle(data['circle_qipao7'], Vector._COLOR_LIST.QIPAO, 8);
-
-				Vector._drawText('go...', 160, 35, '#fff');
-				
-				//眼睛动画
-				var eye_1 = [
-						parseInt(data['circle_eye1'][0]),
-						parseInt(data['circle_eye1'][1])
-					];
-					
-				var eye_2 = [
-					parseInt(data['circle_eye2'][0]),
-					parseInt(data['circle_eye2'][1])
-				];
-				if(qipaoPos % 2 === 0){
-					//眼睛
-					Vector._drawEye(eye_1, Vector._COLOR_LIST.EYE, 3);
-					Vector._drawEye(eye_2, Vector._COLOR_LIST.EYE, 3);	
-					eye_1[0] += 1.5;
-					eye_1[1] -= 2.5;
-					eye_2[0] += 1.5;
-					eye_2[1] -= 1.5;
-					Vector._drawEye(eye_1, '#EFEFEF', 1);
-					Vector._drawEye(eye_2, '#EFEFEF', 1);
-				}else{
-					//闭眼
-					Vector._drawText('‿', eye_1[0] + 13 , eye_1[1] - 21, '#099FDE');
-					Vector._drawText('‿', eye_2[0] - 18 , eye_2[1] - 12.5, '#099FDE');
-					Vector._drawText('>', eye_1[0] - 8 , eye_1[1] + 8, '#099FDE');
-					Vector._drawText('<', eye_2[0] - 8 , eye_2[1] + 8, '#099FDE');
-				}
-				
-				qipaoPos += 1;
-			}, 430);
+			
 		}
 	};
 	
-	
-	var url = 'http://127.0.0.1:3000/get?dirName=dist&fileName=' + 'dist_7';
+	var url = 'http://127.0.0.1:3000/get?dirName=dist&fileName=dist_2';
 	ajax({method: 'GET', url: url}, function(data){
-		data = data.data;
-		new Vector(data).draw();
+		data = data.data['body_br'];
+		context.fillStyle = '#00B7FF';
+		for(var i = 0; i < data.length; i++){
+			if(i % 6 === 0){
+				context.lineTo(data[i], data[i+1]);
+				context.lineTo(data[i], data[i+1]);
+				context.bezierCurveTo(data[i], data[i+1], data[i+2], data[i+3], data[i+4], data[i+5]);
+			}
+		}
+		context.fill();
+		
 	});
 	
 })(window, window);
