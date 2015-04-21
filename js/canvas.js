@@ -8,7 +8,7 @@
 	
 	//缩放比例
 	var SCALE_BIG = 1;
-	var SCALE_SML = 0.25;
+	var SCALE_SML = 0.5;
 	var QIPAO_COUNT = 7;
 	
 	if(!context){
@@ -42,7 +42,7 @@
 		ZUIBA: '#0089B5',
 		TOUQUAN: '#BDF9FB',
 		JIUWO: '#FFBFE3',
-		QIPAO: '#B3D2E5',
+		QIPAO: '#5AD2FE',
 		BISHANG: '#46BEEF',
 		BIXIA: '#54C5F2',
 		GO: '#B1DBF2'
@@ -98,7 +98,7 @@
 	Vector._drawText = function(text, x, y, color){
 		context.beginPath();
 		context.fillStyle = color;
-		context.font = '40px arial,sans-serif';
+		context.font = '20px arial,sans-serif';
 		context.fillText(text, x, y)
 		context.fill();
 		context.closePath();
@@ -142,19 +142,19 @@
 				Vector._drawPolygon(data['polygon_jiuwo2'], Vector._COLOR_LIST.JIUWO);
 				Vector._drawPolygon(data['polygon_go'], Vector._COLOR_LIST.GO);
 				
-				Vector._drawLine(data['line_zui'], Vector._COLOR_LIST.ZUIBA, 4);
-				Vector._drawLine(data['line_bishang'], Vector._COLOR_LIST.BISHANG, 8);
-				Vector._drawLine(data['line_bixia'], Vector._COLOR_LIST.BIXIA, 5);
+				Vector._drawLine(data['line_zui'], Vector._COLOR_LIST.ZUIBA, 2);
+				Vector._drawLine(data['line_bishang'], Vector._COLOR_LIST.BISHANG, 4);
+				Vector._drawLine(data['line_bixia'], Vector._COLOR_LIST.BIXIA, 2.5);
 				
-				Vector._drawCircle(data['circle_qipao1'], Vector._COLOR_LIST.QIPAO, 30);
-				Vector._drawCircle(data['circle_qipao2'], Vector._COLOR_LIST.QIPAO, 25);
-				Vector._drawCircle(data['circle_qipao3'], Vector._COLOR_LIST.QIPAO, 15);
-				Vector._drawCircle(data['circle_qipao4'], Vector._COLOR_LIST.QIPAO, 20);
-				Vector._drawCircle(data['circle_qipao5'], Vector._COLOR_LIST.QIPAO, 15);
-				Vector._drawCircle(data['circle_qipao6'], Vector._COLOR_LIST.QIPAO, 10);
-				Vector._drawCircle(data['circle_qipao7'], Vector._COLOR_LIST.QIPAO, 16);
+				Vector._drawCircle(data['circle_qipao1'], Vector._COLOR_LIST.QIPAO, 15);
+				Vector._drawCircle(data['circle_qipao2'], Vector._COLOR_LIST.QIPAO, 12.5);
+				Vector._drawCircle(data['circle_qipao3'], Vector._COLOR_LIST.QIPAO, 7.5);
+				Vector._drawCircle(data['circle_qipao4'], Vector._COLOR_LIST.QIPAO, 10);
+				Vector._drawCircle(data['circle_qipao5'], Vector._COLOR_LIST.QIPAO, 7.5);
+				Vector._drawCircle(data['circle_qipao6'], Vector._COLOR_LIST.QIPAO, 5);
+				Vector._drawCircle(data['circle_qipao7'], Vector._COLOR_LIST.QIPAO, 8);
 
-				Vector._drawText('go...', 320, 69, '#fff');
+				Vector._drawText('go...', 160, 35, '#fff');
 				
 				//眼睛动画
 				var eye_1 = [
@@ -168,29 +168,29 @@
 				];
 				if(qipaoPos % 2 === 0){
 					//眼睛
-					Vector._drawEye(eye_1, Vector._COLOR_LIST.EYE, 6);
-					Vector._drawEye(eye_2, Vector._COLOR_LIST.EYE, 6);	
-					eye_1[0] += 3;
-					eye_1[1] -= 5;
-					eye_2[0] += 3;
-					eye_2[1] -= 5;
-					Vector._drawEye(eye_1, '#EFEFEF', 2);
-					Vector._drawEye(eye_2, '#EFEFEF', 2);
+					Vector._drawEye(eye_1, Vector._COLOR_LIST.EYE, 3);
+					Vector._drawEye(eye_2, Vector._COLOR_LIST.EYE, 3);	
+					eye_1[0] += 1.5;
+					eye_1[1] -= 2.5;
+					eye_2[0] += 1.5;
+					eye_2[1] -= 1.5;
+					Vector._drawEye(eye_1, '#EFEFEF', 1);
+					Vector._drawEye(eye_2, '#EFEFEF', 1);
 				}else{
 					//闭眼
-					Vector._drawText('‿', eye_1[0] + 26 , eye_1[1] - 42, '#099FDE');
-					Vector._drawText('‿', eye_2[0] - 36 , eye_2[1] - 25, '#099FDE');
-					Vector._drawText('>', eye_1[0] - 16 , eye_1[1] + 16, '#099FDE');
-					Vector._drawText('<', eye_2[0] - 16 , eye_2[1] + 16, '#099FDE');
+					Vector._drawText('‿', eye_1[0] + 13 , eye_1[1] - 21, '#099FDE');
+					Vector._drawText('‿', eye_2[0] - 18 , eye_2[1] - 12.5, '#099FDE');
+					Vector._drawText('>', eye_1[0] - 8 , eye_1[1] + 8, '#099FDE');
+					Vector._drawText('<', eye_2[0] - 8 , eye_2[1] + 8, '#099FDE');
 				}
 				
 				qipaoPos += 1;
-			}, 230);
+			}, 430);
 		}
 	};
 	
 	
-	var url = 'http://127.0.0.1:3000/get?dirName=dist&fileName=' + 'dist_3';
+	var url = 'http://127.0.0.1:3000/get?dirName=dist&fileName=' + 'dist_7';
 	ajax({method: 'GET', url: url}, function(data){
 		data = data.data;
 		new Vector(data).draw();
