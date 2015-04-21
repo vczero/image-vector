@@ -42,7 +42,7 @@
 		ZUIBA: '#0089B5',
 		TOUQUAN: '#BDF9FB',
 		JIUWO: '#FFBFE3',
-		QIPAO: '#B3D2E5',
+		QIPAO: '#1FB9FF',
 		BISHANG: '#46BEEF',
 		BIXIA: '#54C5F2',
 		GO: '#B1DBF2'
@@ -108,6 +108,8 @@
 		draw: function(){
 			var data = this.data;
 			var qipaoPos = 0;
+			var textPos = [320, 69];
+			
 			var handle = setInterval(function(){
 				context.clearRect(0, 0, canvas.width, canvas.height);
 				if(qipaoPos === 0){
@@ -122,6 +124,7 @@
 							}
 						}
 					}
+					textPos[1] = parseInt(textPos[1]) + 23;
 				}else{
 					for(var i in data){
 						for(var j in data[i]){
@@ -132,6 +135,7 @@
 							}
 						}
 					}
+					textPos[1] = parseInt(textPos[1]) - 23;
 				}
 				
 				//第一层
@@ -154,7 +158,7 @@
 				Vector._drawCircle(data['circle_qipao6'], Vector._COLOR_LIST.QIPAO, 10);
 				Vector._drawCircle(data['circle_qipao7'], Vector._COLOR_LIST.QIPAO, 16);
 
-				Vector._drawText('go...', 320, 69, '#fff');
+				Vector._drawText('go...', textPos[0], textPos[1], '#fff');
 				
 				//眼睛动画
 				var eye_1 = [
@@ -185,7 +189,7 @@
 				}
 				
 				qipaoPos += 1;
-			}, 230);
+			}, 430);
 		}
 	};
 	
