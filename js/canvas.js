@@ -15,18 +15,6 @@
 		return;
 	}
 	
-	if(!window.requestAnimationFrame){
-		return window.requestAnimationFrame = (function(){
-			window.webkitRequestAnimationFrame 
-			|| window.mozRequestAnimationFrame
-			|| window.oRequestAnimationFrame
-			|| window.msRequestAnimationFrame
-			|| function(callback, el){
-				window.setTimeout(callback, 1000/ 60);
-			};
-		})();
-	}
-   	
 	
 	var Vd = function(data){
 		this.data = data;
@@ -139,6 +127,9 @@
 				}
 				
 				//第一层
+				//翅膀1左边改变：0-10 15-23
+				
+				//翅膀2右边改变：4-19
 				Vd._drawPolygon(data['polygon_bd1'], Vd._COLORS.BODY);
 				Vd._drawPolygon(data['polygon_bd2'], Vd._COLORS.BODY);
 				Vd._drawPolygon(data['polygon_bd3'], Vd._COLORS.BODY);
@@ -197,9 +188,7 @@
 			}, 430);
 		}
 	};
-	
-	
-//	var url = 'http://127.0.0.1:3000/get?dirName=dist&fileName=' + 'dist_3';
+
 	var url = 'http://127.0.0.1:3000/get?dirName=dist&fileName=' + 'dist_5';
 	ajax({method: 'GET', url: url}, function(data){
 		data = data.data;
