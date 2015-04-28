@@ -1,19 +1,15 @@
-;(function(){
-	var canvas = document.getElementsByTagName('canvas')[0]	
-	var context = canvas.getContext('2d');
-	
-	if(!context){
+;(function(exports){
+	if(!document.createElement('canvas').getContext('2d')){
 		return;
 	}
-	
-//	context.scale(0.25, 0.25);
+		
 	var COLOR_LIST = {
-		BODY: '#8CD9FF',
+		BODY: '#86CFF8',
 		DU_PI: '#FFF',
 		TOU_QUAN: '#B6F5F8',
-		CHI_BANG_1: '#8CD9FF',
+		CHI_BANG_1: '#86CFF8',
 		CHI_BANG_2: '#86CFF8',
-		WEI_BA: '#8CD9FF'
+		WEI_BA: '#86CFF8'
 	};
 	var body = [112, 253, 95, 209, 110, 149,
 		110, 145, 118, 112, 173, 92,
@@ -81,183 +77,199 @@
 		245, 432, 240, 457, 231, 446,
 		231, 446, 211, 433, 204, 414,
 		204, 409, 185, 424, 145, 425];
+		
+	var weiba_new = [200, 438, 190, 397, 230, 394,
+		230, 397, 262, 410, 260, 445,
+		260, 425, 200, 415, 240, 405,
+		230, 407, 220, 430, 200, 440
+		];
+
 	
-	var i = 0;
-	setInterval(function(){
-		var grd = context.createLinearGradient(315, 171, 98, 190);
-		context.clearRect(0, 0, canvas.width, canvas.height);
-		grd.addColorStop(1, COLOR_LIST.BODY);
-		grd.addColorStop(0, '#86CFF8');
-		
-		drawPolygon(body, grd);
-		drawPolygon(dupi, COLOR_LIST.DU_PI);
-		drawPolygon(touquan, COLOR_LIST.TOU_QUAN);
-		drawPolygon(weiba, COLOR_LIST.WEI_BA);
-		drawZui();
-		drawJiuWo(161, 211);
-		drawJiuWo(300, 174);
-		drawBiZi();
-		drawGo();
-		drawText('go...', 320, 85, '#fff');
-		
-		if(i % 2 === 0){
-			drawPolygon(chibang_1, COLOR_LIST.CHI_BANG_1);
-			drawPolygon(chibang_2, COLOR_LIST.CHI_BANG_2);
-		}else{
-			drawPolygon(chibang_1_new, COLOR_LIST.CHI_BANG_1);
-			drawPolygon(chibang_2_new, COLOR_LIST.CHI_BANG_2);
-		}
-		
-		if(i % 4 === 0){
-			drawText('>', 169 - 0, 180 + 5, '#099FDE');
-			drawText('<', 283 - 16, 150 + 16, '#099FDE');
-			drawText('‿', 169 + 10, 180 - 35, '#099FDE');
-			drawText('‿', 283 - 55, 150 - 14, '#099FDE');
-		}else{
-			drawEye(169, 180);
-			drawEye(283, 150);
-		}
-		if(i % 2 === 0){
-			drawPao(44, 270, 40);
-			drawPao(331, 420, 25);
-			drawPao(91, 405, 12);
-			drawPao(124, 427, 11);
-			drawPao(279, 446, 10);
-			drawPao(356, 369, 12);
-			drawPao(413, 270, 18);
-		}else{
-			drawPao(44, 270 + 10, 40);
-			drawPao(331, 420 + 10, 25);
-			drawPao(91, 405 + 10, 12);
-			drawPao(124, 427 + 10, 11);
-			drawPao(279, 446 + 10, 10);
-			drawPao(356, 369 + 10, 12);
-			drawPao(413, 270 + 10, 18);
-		}
-		
-		i++;
-	}, 430);
 	
-	function drawZui(){
+	function drawZui(ctx){
 		//重复加粗
 		for(var i = 0; i < 3; i++){
-			context.beginPath();
-			context.strokeStyle = '#099FDE';
-			context.bezierCurveTo(195 - i, 210, 209, 210 + i, 224, 189);
-			context.bezierCurveTo(224, 189, 228, 180 + i, 244, 183);
-			context.bezierCurveTo(244, 183, 267, 189 + i, 270, 186);
-			context.stroke();
-			context.closePath();
+			ctx.beginPath();
+			ctx.strokeStyle = '#099FDE';
+			ctx.bezierCurveTo(195 - i, 210, 209, 210 + i, 224, 189);
+			ctx.bezierCurveTo(224, 189, 228, 180 + i, 244, 183);
+			ctx.bezierCurveTo(244, 183, 267, 189 + i, 270, 186);
+			ctx.stroke();
+			ctx.closePath();
 		}
 	}
 	
-	function drawEye(x, y){
-		context.beginPath();
-		context.fillStyle = '#000';
-	 	context.save();
-		context.scale(1.5, 2);
-		context.arc(x/1.5, y/2, 6, 0, Math.PI * 2, false);
-		context.restore();
-		context.fill();
-		context.closePath();
+	function drawEye(ctx, x, y){
+		ctx.beginPath();
+		ctx.fillStyle = '#000';
+	 	ctx.save();
+		ctx.scale(1.5, 2);
+		ctx.arc(x/1.5, y/2, 6, 0, Math.PI * 2, false);
+		ctx.restore();
+		ctx.fill();
+		ctx.closePath();
 		
-		context.beginPath();
-		context.fillStyle = '#ddd';
-	 	context.save();
-		context.scale(1.5, 2);
-		context.arc((x + 3)/1.5, (y - 5)/2, 3, 0, Math.PI * 2, false);
-		context.restore();
-		context.fill();
-		context.closePath();
+		ctx.beginPath();
+		ctx.fillStyle = '#ddd';
+	 	ctx.save();
+		ctx.scale(1.5, 2);
+		ctx.arc((x + 3)/1.5, (y - 5)/2, 3, 0, Math.PI * 2, false);
+		ctx.restore();
+		ctx.fill();
+		ctx.closePath();
 	}
 	
 	//酒窝
-	function drawJiuWo(x, y){
-		context.beginPath();
-		context.fillStyle = '#FFBFE3';
-	 	context.save();
-		context.scale(2.1, 1.2);
-		context.arc(x/2.1, y/1.2, 5, 0, Math.PI * 2, false);
-		context.restore();
-		context.fill();
-		context.closePath();
+	function drawJiuWo(ctx, x, y){
+		ctx.beginPath();
+		ctx.fillStyle = '#FFBFE3';
+	 	ctx.save();
+		ctx.scale(2.1, 1.2);
+		ctx.arc(x/2.1, y/1.2, 5, 0, Math.PI * 2, false);
+		ctx.restore();
+		ctx.fill();
+		ctx.closePath();
 	}
 	
-	
 	//重复鼻子
-	function drawBiZi(){
+	function drawBiZi(ctx){
 		for(var n = 0; n < 5; n++){
-			context.beginPath();
-			context.strokeStyle = '#46BEEF';
-			context.bezierCurveTo(220, 173, 223, 164 + n, 247, 168);
-			context.stroke();
-			context.closePath();	
+			ctx.beginPath();
+			ctx.strokeStyle = '#46BEEF';
+			ctx.bezierCurveTo(220, 173, 223, 164 + n, 247, 168);
+			ctx.stroke();
+			ctx.closePath();	
 		}
 	}
 	
 	//气泡,以下参数经过计算后得出
-	function drawPao(x, y, radius){
-		context.beginPath();
-		context.fillStyle = '#C9E8FB';
-		context.arc(x, y, radius, 0, Math.PI * 2, false);
-		context.fill();
-		context.closePath();
+	function drawPao(ctx, x, y, radius){
+		ctx.beginPath();
+		ctx.fillStyle = '#C9E8FB';
+		ctx.arc(x, y, radius, 0, Math.PI * 2, false);
+		ctx.fill();
+		ctx.closePath();
 		//气泡内球
-		context.beginPath();
-		context.fillStyle = '#EBF3F7';
-	 	context.save();
-		context.scale(1.2, 1.8);
-		context.arc((x - (radius/2))/1.2, (y - (radius/4))/1.8, radius/7, 0, Math.PI * 2, false);
-		context.restore();
-		context.fill();
-		context.closePath();
+		ctx.beginPath();
+		ctx.fillStyle = '#EBF3F7';
+	 	ctx.save();
+		ctx.scale(1.2, 1.8);
+		ctx.arc((x - (radius/2))/1.2, (y - (radius/4))/1.8, radius/7, 0, Math.PI * 2, false);
+		ctx.restore();
+		ctx.fill();
+		ctx.closePath();
 		//气泡内多边形
-		context.beginPath();
-		context.fillStyle = '#EBF3F7';
-	 	context.bezierCurveTo(x- radius/4, y+radius/2, x+radius/2.7, y+radius/2, x+radius/1.6, y+radius/4);
-	 	context.lineTo(x+radius/1.3, y+radius/2);
-	 	context.bezierCurveTo(x+radius/1.3, y+radius/2, x+radius/2.7, y+radius/1.3, x-radius/4, y+radius/1.3);
-		context.fill();
-		context.closePath();
+		ctx.beginPath();
+		ctx.fillStyle = '#EBF3F7';
+	 	ctx.bezierCurveTo(x- radius/4, y+radius/2, x+radius/2.7, y+radius/2, x+radius/1.6, y+radius/4);
+	 	ctx.lineTo(x+radius/1.3, y+radius/2);
+	 	ctx.bezierCurveTo(x+radius/1.3, y+radius/2, x+radius/2.7, y+radius/1.3, x-radius/4, y+radius/1.3);
+		ctx.fill();
+		ctx.closePath();
 	}
 	
-	function drawGo(){
-		context.beginPath();
-		context.fillStyle = '#C9E8FB';
-	 	context.save();
-		context.scale(2, 1.5);
-		context.arc(355/2, 80/1.5, 20, 0, Math.PI * 2, false);
-		context.restore();
-		context.fill();
-		context.closePath();
+	function drawGo(ctx){
+		ctx.beginPath();
+		ctx.fillStyle = '#C9E8FB';
+	 	ctx.save();
+		ctx.scale(2, 1.5);
+		ctx.arc(355/2, 80/1.5, 20, 0, Math.PI * 2, false);
+		ctx.restore();
+		ctx.fill();
+		ctx.closePath();
 		//go尖
-		context.beginPath();
-		context.fillStyle = '#C9E8FB';
-	 	context.bezierCurveTo(305, 113, 320, 103, 325, 90);
-	 	context.bezierCurveTo(346, 107, 320, 103, 305, 113);
-		context.fill();
-		context.closePath();
+		ctx.beginPath();
+		ctx.fillStyle = '#C9E8FB';
+	 	ctx.bezierCurveTo(305, 113, 320, 103, 325, 90);
+	 	ctx.bezierCurveTo(346, 107, 320, 103, 305, 113);
+		ctx.fill();
+		ctx.closePath();
 	}
 	
-	function drawText(text, x, y, color){
-		context.beginPath();
-		context.fillStyle = color;
-		context.font = '36px arial,sans-serif';
-		context.fillText(text, x, y)
-		context.fill();
-		context.closePath();
+	function drawText(ctx, text, x, y, color){
+		ctx.beginPath();
+		ctx.fillStyle = color;
+		ctx.font = '36px arial,sans-serif';
+		ctx.fillText(text, x, y)
+		ctx.fill();
+		ctx.closePath();
 	}
 	
-	function drawPolygon(data, color){
-		context.beginPath();
-		context.fillStyle = color;
+	function drawPolygon(ctx, data, color){
+		ctx.beginPath();
+		ctx.fillStyle = color;
 		for(var i = 0; i < data.length; i++){
 			if(i % 6 === 0){
-				context.bezierCurveTo(data[i], data[i+1], data[i+2], data[i+3], data[i+4], data[i+5]);
+				ctx.bezierCurveTo(data[i], data[i+1], data[i+2], data[i+3], data[i+4], data[i+5]);
 			}
 		}
-		context.fill();
-		context.closePath();
+		ctx.fill();
+		ctx.closePath();
 	}
 	
-})();
+	var UU = function(canvas, scale){
+		this.canvas = canvas;
+		this.scale = scale;
+		this.ctx = canvas.getContext('2d');
+	}
+	UU.prototype.draw = function(){	
+		this.ctx.scale(this.scale, this.scale);
+		var ctx = this.ctx;
+		var canvas = this.canvas;
+		var i = 0;
+		setInterval(function(){
+			ctx.clearRect(0, 0, canvas.width, canvas.height);		
+			drawPolygon(ctx, body, '#86CFF8');
+			drawPolygon(ctx, dupi, COLOR_LIST.DU_PI);
+			drawPolygon(ctx, touquan, COLOR_LIST.TOU_QUAN);
+			drawZui(ctx);
+			drawJiuWo(ctx, 161, 211);
+			drawJiuWo(ctx, 300, 174);
+			drawBiZi(ctx);
+			drawGo(ctx);
+			drawText(ctx, 'go...', 320, 85, '#fff');
+			
+			if(i % 2 === 0){
+				drawPolygon(ctx, weiba, COLOR_LIST.WEI_BA);
+				drawPolygon(ctx, chibang_1, COLOR_LIST.CHI_BANG_1);
+				drawPolygon(ctx, chibang_2, COLOR_LIST.CHI_BANG_2);
+			}else{
+				drawPolygon(ctx, weiba_new, COLOR_LIST.WEI_BA);
+				drawPolygon(ctx, chibang_1_new, COLOR_LIST.CHI_BANG_1);
+				drawPolygon(ctx, chibang_2_new, COLOR_LIST.CHI_BANG_2);
+			}
+			
+			if(i % 4 === 0){
+				drawText(ctx, '>', 169 - 0, 180 + 5, '#099FDE');
+				drawText(ctx, '<', 283 - 16, 150 + 16, '#099FDE');
+				drawText(ctx, '‿', 169 + 10, 180 - 35, '#099FDE');
+				drawText(ctx, '‿', 283 - 55, 150 - 14, '#099FDE');
+			}else{
+				drawEye(ctx, 169, 180);
+				drawEye(ctx, 283, 150);
+			}
+			if(i % 2 === 0){
+				drawPao(ctx, 44, 270, 40);
+				drawPao(ctx, 331, 420, 25);
+				drawPao(ctx, 91, 405, 12);
+				drawPao(ctx, 124, 427, 11);
+				drawPao(ctx, 279, 446, 10);
+				drawPao(ctx, 356, 369, 12);
+				drawPao(ctx, 413, 270, 18);
+			}else{
+				drawPao(ctx, 44, 270 + 10, 40);
+				drawPao(ctx, 331, 420 + 10, 25);
+				drawPao(ctx, 91, 405 + 10, 12);
+				drawPao(ctx, 124, 427 + 10, 11);
+				drawPao(ctx, 279, 446 + 10, 10);
+				drawPao(ctx, 356, 369 + 10, 12);
+				drawPao(ctx, 413, 270 + 10, 18);
+			}
+			
+			i++;
+		}, 380);	
+	};
+	
+	exports.UU = UU;
+	
+})(window);
